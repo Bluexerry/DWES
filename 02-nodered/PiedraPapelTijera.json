@@ -1,0 +1,150 @@
+[
+    {
+        "id": "39dd558b6d3beaf3",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "33d50c59c7943b02",
+        "type": "debug",
+        "z": "39dd558b6d3beaf3",
+        "name": "Salida",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "mensaje",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "6d6c6aeed60e257b",
+        "type": "inject",
+        "z": "39dd558b6d3beaf3",
+        "name": "Piedra",
+        "props": [
+            {
+                "p": "mensaje",
+                "v": "Piedra",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 470,
+        "y": 200,
+        "wires": [
+            [
+                "c36eeb30294228dd"
+            ]
+        ]
+    },
+    {
+        "id": "9026bac2f34cea99",
+        "type": "inject",
+        "z": "39dd558b6d3beaf3",
+        "name": "Tijera",
+        "props": [
+            {
+                "p": "mensaje",
+                "v": "Tijera",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 470,
+        "y": 360,
+        "wires": [
+            [
+                "c36eeb30294228dd"
+            ]
+        ]
+    },
+    {
+        "id": "27504b118b072ada",
+        "type": "inject",
+        "z": "39dd558b6d3beaf3",
+        "name": "Papel",
+        "props": [
+            {
+                "p": "mensaje",
+                "v": "Papel",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 470,
+        "y": 280,
+        "wires": [
+            [
+                "c36eeb30294228dd"
+            ]
+        ]
+    },
+    {
+        "id": "c36eeb30294228dd",
+        "type": "join",
+        "z": "39dd558b6d3beaf3",
+        "name": "Unir",
+        "mode": "custom",
+        "build": "array",
+        "property": "mensaje",
+        "propertyType": "msg",
+        "key": "mensajes",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 830,
+        "y": 280,
+        "wires": [
+            [
+                "cc2ec18b15688fda"
+            ]
+        ]
+    },
+    {
+        "id": "cc2ec18b15688fda",
+        "type": "function",
+        "z": "39dd558b6d3beaf3",
+        "name": "Funcion",
+        "func": "let valor1 = msg.mensaje[0];\nlet valor2 = msg.mensaje[1];\n\nif (valor1 == \"Piedra\" && valor2 == \"Tijera\") {\n    msg.mensaje = \"Gana piedra\";\n} else if (valor1 == \"Piedra\" && valor2 == \"Piedra\") {\n    msg.mensaje = \"Empate\";\n} if (valor1 == \"Piedra\" && valor2 == \"Papel\") {\n    msg.mensaje = \"Gana papel\";\n} else if (valor1 == \"Tijera\" && valor2 == \"Piedra\") {\n    msg.mensaje = \"Gana piedra\";\n} else if (valor1 == \"Tijera\" && valor2 == \"Tijera\") {\n    msg.mensaje = \"Empate\";\n} else if (valor1 == \"Tijera\" && valor2 == \"Papel\") {\n    msg.mensaje = \"Gana tijera\";\n} else if (valor1 == \"Papel\" && valor2 == \"Tijera\") {\n    msg.mensaje = \"Gana tijera\";\n} else if (valor1 == \"Papel\" && valor2 == \"Piedra\") {\n    msg.mensaje = \"Gana papel\";\n} else if (valor1 == \"Papel\" && valor2 == \"Papel\") {\n    msg.mensaje = \"Empate\";\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 280,
+        "wires": [
+            [
+                "33d50c59c7943b02"
+            ]
+        ]
+    }
+]
