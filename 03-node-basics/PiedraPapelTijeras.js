@@ -1,10 +1,5 @@
 function piedraPapelTijera() {
-    // Definimos tres strings
-    const strings = [
-        "piedra",
-        "papel",
-        "tijera"
-    ];
+    const strings = ["piedra", "papel", "tijera"];
 
     const randomIndex = Math.floor(Math.random() * strings.length);
     return strings[randomIndex];
@@ -15,32 +10,41 @@ const readline = require('readline').createInterface({
     output: process.stdout
 });
 
-readline.question("\nElige Piedra, Papel, Tijera\n", eleccion => {
-    readline.close();
+function juego() {
+    readline.question("\nElige 1 = Piedra, 2 = Papel, 3 = Tijera\n", (eleccion) => {
+        let respuestaUsuario;
 
-    let eleccionMaquina = piedraPapelTijera();
+        // Convertir la entrada del usuario a "piedra", "papel" o "tijera"
+        if (eleccion == 1) {
+            respuestaUsuario = "piedra";
+        } else if (eleccion == 2) {
+            respuestaUsuario = "papel";
+        } else if (eleccion == 3) {
+            respuestaUsuario = "tijera";
+        } else {
+            console.log("Debes ingresar un valor válido (1, 2 o 3)");
+            return juego();  // Reinicia el juego si la entrada es inválida
+        }
 
-    if (eleccion.toLowerCase() !== "piedra" || eleccion.toLowerCase() !== "papel" || eleccion.toLowerCase() !== "tijera") {
-        console.log("Debes ingresar un valor valido");
-        return;
-    }
+        const eleccionMaquina = piedraPapelTijera();
 
-    console.log("\nLa maquina ha elegido " + eleccionMaquina);
-    console.log("Tu has elegido " + eleccion + "\n");
+        console.log("\nLa máquina ha elegido " + eleccionMaquina);
+        console.log("Tú has elegido " + respuestaUsuario + "\n");
 
-    if (eleccion.toLowerCase() === "piedra" && eleccionMaquina.toLowerCase() === "tijera") {
-        console.log("HAS GANADO");
-    } else if (eleccion.toLowerCase() === "piedra" && eleccionMaquina.toLowerCase() === "papel") {
-        console.log("HAS PERDIDO");
-    } else if (eleccion.toLowerCase() === "papel" && eleccionMaquina.toLowerCase() === "tijera") {
-        console.log("HAS PERDIDO");
-    } else if (eleccion.toLowerCase() === "papel" && eleccionMaquina.toLowerCase() === "piedra") {
-        console.log("HAS GANADO");
-    } else if (eleccion.toLowerCase() === "tijera" && eleccionMaquina.toLowerCase() === "piedra") {
-        console.log("HAS PERDIDO");
-    } else if (eleccion.toLowerCase() === "tijera" && eleccionMaquina.toLowerCase() === "papel") {
-        console.log("HAS GANADO");
-    } else if (eleccion.toLowerCase() === eleccionMaquina.toLowerCase()) {
-        console.log("EMPATE");
-    }
-});
+        if (
+            (respuestaUsuario === "piedra" && eleccionMaquina === "tijera") ||
+            (respuestaUsuario === "papel" && eleccionMaquina === "piedra") ||
+            (respuestaUsuario === "tijera" && eleccionMaquina === "papel")
+        ) {
+            console.log("HAS GANADO");
+        } else if (respuestaUsuario === eleccionMaquina) {
+            console.log("EMPATE");
+        } else {
+            console.log("HAS PERDIDO");
+        }
+
+        readline.close();
+    });
+}
+
+juego();
