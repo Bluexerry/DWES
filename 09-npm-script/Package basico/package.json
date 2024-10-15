@@ -6,10 +6,17 @@
     "start": "node ejemploBasico.js",
     "dev": "node --watch ejemploBasico.js",
     "date": "node fecha.js",
-    "crear": "node crearArchivo.js"
+    "crear": "node crearFile.js",
+    "crear:js": "node crearJs.js",
+    "crear:carpetas": "node crearCarpetas.js",
+    "borrar": "node borrarArchivo.js",
+    "borrar:js": "node borrarJs.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "09-npm-script": "file:"
+  }
 }
