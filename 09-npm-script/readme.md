@@ -1,10 +1,10 @@
 # Documentación de Scripts en package.json
 
-Este documento describe cómo acceder y utilizar los scripts definidos en el archivo `package.json` de tu proyecto. Los scripts son comandos predefinidos que facilitan diversas tareas, como la creación de archivos y carpetas, la eliminación de contenido y la ejecución de scripts de Node.js.
+Este documento describe cómo acceder y utilizar los scripts definidos en el archivo `package.json` del proyecto.
 
 ## Scripts Disponibles
 
-A continuación, se presentan los scripts disponibles en la sección `scripts` de tu `package.json`, junto con sus descripciones y ejemplos de uso.
+A continuación, se presentan los scripts disponibles en la sección `scripts` del `package.json`, junto con sus descripciones y ejemplos de uso.
 
 ### Scripts
 
