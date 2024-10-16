@@ -22,14 +22,15 @@ npm run imprime
 
  Para ejecutar el script imprimir.js con el texto "HolaMundo" en color azul, debes ejecutar el siguiente comando:
 
-> npm run imprime -- azul "Texto en azul"
-> npm run imprime -- rojo "Texto en rojo"
-> npm run imprime -- verde "Texto en verde"
+```bash
+npm run imprime -- azul "Texto en azul"
+npm run imprime -- rojo "Texto en rojo"
+npm run imprime -- verde "Texto en verde"
+```
 
 Para ejecutar npm run crear:js y npm run crear:carpeta debes darle el nombre del argumento tras un espacio en blanco:
 
-> npm run crear:js ejemplo
-> npm run crear:carpeta ejemplo
-
-
-
+```bash
+npm run crear:js ejemplo
+npm run crear:carpeta ejemplo
+```
