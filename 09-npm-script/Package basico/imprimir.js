@@ -13,8 +13,3 @@ if (color === 'azul') {
 } else {
     console.log('Color no soportado. Usa azul, rojo o verde.');
 }
-
-// Para ejecutar el script imprimir.js con el texto "HolaMundo" en color azul, debes ejecutar el siguiente comando:
-// npm run imprime -- azul "Texto en azul"
-// npm run imprime -- rojo "Texto en rojo"
-// npm run imprime -- verde "Texto en verde"

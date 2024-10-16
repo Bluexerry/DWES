@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "crear": "mkdir files",
-    "crear:js": "node -e \"const fs = require('fs'); const fileName = process.argv[1]; fs.writeFileSync(`files/${fileName}.js`, '');\"",
+    "crear:js": "node -e \"const fs = require('fs'); const path = 'files'; const fileName = process.argv[1]; if (!fs.existsSync(path)) { fs.mkdirSync(path); } fs.writeFileSync(`${path}/${fileName}.js`, '');\"",
     "crear:carpeta": "node -e \"const fs = require('fs'); const dirName = process.argv[1]; fs.mkdirSync(`files/${dirName}`, { recursive: true });\"",
     "borrar": "rmdir /s /q files",
     "borrar:js": "del /q files\\*.js",
