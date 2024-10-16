@@ -1,0 +1,19 @@
+{
+  "name": "editor_notas",
+  "version": "1.0.0",
+  "main": "editorNotas.js",
+  "scripts": {
+    "notas": "node editorNotas.js",
+    "crear": "node editorNotas.js 1",
+    "editar": "node editorNotas.js 2",
+    "eliminar": "node editorNotas.js 3",
+    "salir": "node editorNotas.js 4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "editor_notas": "file:"
+  }
+}

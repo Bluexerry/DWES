@@ -3,20 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node ejemploBasico.js",
-    "dev": "node --watch ejemploBasico.js",
-    "date": "node fecha.js",
-    "crear": "node crearFile.js",
-    "crear:js": "node crearJs.js",
-    "crear:carpetas": "node crearCarpetas.js",
-    "borrar": "node borrarArchivo.js",
-    "borrar:js": "node borrarJs.js"
+    "crear": "mkdir files",
+    "crear:js": "node -e \"const fs = require('fs'); const fileName = process.argv[1]; fs.writeFileSync(`files/${fileName}.js`, '');\"",
+    "crear:carpeta": "node -e \"const fs = require('fs'); const dirName = process.argv[1]; fs.mkdirSync(`files/${dirName}`, { recursive: true });\"",
+    "borrar": "rmdir /s /q files",
+    "borrar:js": "del /q files\\*.js",
+    "fecha": "node -e \"console.log(new Date().toLocaleString());\"",
+    "imprime": "node imprimir.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "09-npm-script": "file:"
+    "09-npm-script": "file:",
+    "chalk": "^4.1.2"
   }
 }
