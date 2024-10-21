@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "dependencies": {
+    "10-vscode-debug": "file:",
+    "node-fetch": "^3.3.2"
+  },
+  "name": "10-vscode-debug",
+  "version": "1.0.0",
+  "main": "extraerDatosLiberia.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run index.js",
+            "program": "${workspaceFolder}/index.js", // Ejecuta siempre index.js
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run current file",
+            "program": "${file}", // Ejecuta el archivo actual que esté abierto en el editor
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        }
+    ]
+}
