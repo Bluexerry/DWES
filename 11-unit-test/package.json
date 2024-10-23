@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "test": "nyc ava",
+    "test:watch": "nyc ava --watch",
+    "sonar": "sonar-scanner"
+  },
+  "devDependencies": {
+    "ava": "^3.15.0"
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.js"
+    ]
+  }
+}
