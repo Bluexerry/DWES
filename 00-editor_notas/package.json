@@ -1,0 +1,29 @@
+{
+  "name": "editor_notas",
+  "version": "1.0.0",
+  "main": "editorNotas.js",
+  "scripts": {
+    "start": "node editorNotas.js",
+    "notas": "node editorNotas.js",
+    "crear": "node editorNotas.js 1",
+    "editar": "node editorNotas.js 2",
+    "eliminar": "node editorNotas.js 3",
+    "salir": "node editorNotas.js 4",
+    "dev": "nodemon editorNotas.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "editor_notas": "file:"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "nodemon": "^3.1.7"
+  }
+}
