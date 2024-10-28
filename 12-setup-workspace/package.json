@@ -1,0 +1,23 @@
+{
+  "name": "12-setup-workspace",
+  "version": "1.0.0",
+  "description": "Proyecto de notas con configuración de nodemon y ESLint",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js", 
+    "dev": "nodemon index.js", 
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --fix --ignore-path .gitignore ."
+  },
+  "author": "Jesús",
+  "license": "ISC",
+  "keywords": [],
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^15.11.0",
+    "nodemon": "^3.1.7"
+  }
+}
