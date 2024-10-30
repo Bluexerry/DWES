@@ -1,0 +1,17 @@
+{
+  "name": "13-nodejs-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "13-nodejs-server": "file:",
+    "query-string": "^9.1.1"
+  }
+}
