@@ -1,0 +1,7 @@
+Siempre que inicies un nuevo proyecto:
+
+npm init -y
+npm install --save-dev eslint
+npx eslint --init
+
+Cierra y abre VS Code

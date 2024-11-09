@@ -39,3 +39,7 @@ test('Should return foo (for 15)', t => {
     const result = fizzBuzz(15, conditions);
     t.is(result, 'foo'); // Comprobamos que devuelve "foo"
 });
+
+// Pruebas:
+// npx ava test/fizzbuzz.test.js
+// O para comparar de manera global: npx ava

@@ -1,11 +1,12 @@
-import { defineConfig } from '@eslint/js';
+// eslint.config.mjs
 import airbnbBase from 'eslint-config-airbnb-base';
 
-export default defineConfig([
-  airbnbBase,
+export default [
   {
+    // Incluye directamente las reglas de airbnb-base
     rules: {
-      // Puedes agregar reglas adicionales aquí, si es necesario
+      ...airbnbBase.rules, // Copia las reglas de airbnb-base directamente
+      // Puedes agregar reglas adicionales aquí si lo necesitas
     },
   },
-]);
+];

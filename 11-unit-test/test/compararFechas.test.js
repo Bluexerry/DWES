@@ -32,3 +32,7 @@ test('Should return the correct order when the second date is earlier', t => {
         endDate: '2024-12-31T00:00:00.000Z'
     });
 });
+
+// Pruebas:
+// npx ava test/compararFechas.test.js
+// O para comparar de manera global: npx ava

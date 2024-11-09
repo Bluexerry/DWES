@@ -1,4 +1,3 @@
-// index.js
 const express = require('express');
 const app = express();
 const PORT = 3000;
@@ -33,3 +32,10 @@ app.use((req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
+
+//Pruebas:
+//http://localhost:3000/animals/lion
+// curl http://localhost:3000/animals/lion
+
+//Respuesta:
+// {"code":404,"error":"Not Found","message":"Error: Path not found"}
