@@ -1,6 +1,6 @@
 # NPM: Package.json y Scripting
 
-Este documento, desarrollado por Gabriel Rodríguez Flores, proporciona una introducción a la configuración y automatización de proyectos en Node.js utilizando el archivo `package.json` y los scripts de NPM.
+---
 
 ## Contenido
 

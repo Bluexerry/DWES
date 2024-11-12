@@ -1,6 +1,7 @@
-const express = require('express');
-const morgan = require('morgan');
-const logger = require('./logger'); // Importamos el logger desde 'logger.js'
+// Importamos las dependencias necesarias
+const express = require('express'); // Framework para crear la aplicación web
+const morgan = require('morgan'); // Middleware para registro de solicitudes HTTP
+const logger = require('./logger'); // Importamos el logger personalizado desde 'logger.js'
 
 // Crear la aplicación Express
 const app = express();
@@ -8,31 +9,35 @@ const app = express();
 // Middleware para el registro de accesos a la API con Morgan
 app.use(morgan('combined', {
     stream: {
-        write: (message) => logger.info(message.trim())  // Pasamos los logs de Morgan a nuestro logger
+        // Redirige los logs de Morgan al logger personalizado
+        write: (message) => logger.info(message.trim())  // .trim() elimina espacios en blanco innecesarios
     }
 }));
 
 // Rutas de ejemplo
 app.get('/', (req, res) => {
+    // Responde con un mensaje de bienvenida y código de estado 200 (OK)
     res.status(200).send('Bienvenido a la API');
 });
 
 // Ruta que fuerza un error para probar el middleware de manejo de errores
 app.get('/error', (req, res, next) => {
-    next(new Error('Forzado error de prueba')); // Llamamos a next para pasar el error
+    // Creamos un error y lo pasamos al siguiente middleware de manejo de errores
+    next(new Error('Forzado error de prueba'));
 });
 
 // Middleware para el manejo de errores
-app.use((err, req, res, next) => { // Ignoramos el error de eslint de que next no esta definido
-    // Registra el error con el logger
+app.use((err, req, res, next) => { // Es necesario 'next' como parámetro para detectar que es un middleware de manejo de errores
+    // Registra el error utilizando el logger personalizado
     logger.error('Server Error: ' + err.message);
-    // Responde con un error 500
+    // Responde con un código de error 500 y un mensaje JSON indicando error de servidor
     res.status(500).json({ error: 'Server Error' });
 });
 
-// Iniciar el servidor
+// Iniciar el servidor en el puerto 3000
 const PORT = 3000;
 app.listen(PORT, () => {
+    // Mensaje de inicio del servidor, registrado con el logger personalizado
     logger.info(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
