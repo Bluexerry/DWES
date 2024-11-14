@@ -1,0 +1,24 @@
+{
+  "name": "editor_notas",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "crear": "node src/index.js 1",
+    "editar": "node src/index.js 2",
+    "eliminar": "node src/index.js 3",
+    "salir": "node src/index.js 4",
+    "dev": "nodemon src/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "editor_notas": "file:",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0"
+  }
+}
