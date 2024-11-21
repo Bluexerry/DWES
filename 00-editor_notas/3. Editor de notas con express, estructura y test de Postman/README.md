@@ -1,78 +1,123 @@
 
-# Editor de Notas
+# Proyecto Editor de Notas con Express
 
-Este proyecto es una aplicación de consola en Node.js que permite crear, editar y eliminar notas. Las notas se guardan en archivos con extensión `.note` dentro de una carpeta `notas`. La estructura del proyecto sigue el patrón MVC (Model-View-Controller) para organizar las distintas responsabilidades de la aplicación.
+## Descripción
+Este proyecto consiste en la creación de un servidor con rutas para un programa de notas utilizando Express. El proyecto sigue buenas prácticas, incluye un logger configurado, control de errores, estructura de carpetas MVC, y pruebas con una cobertura superior al 80%.
 
-## Estructura del Proyecto
+## Estructura de Carpetas
 
 ```plaintext
 project-root
 |-- src
 |   |-- controllers
-|   |   `-- notesController.js  # Controlador principal de la lógica de notas
+|   |   `-- notesController.js
 |   |-- loaders
-|   |   `-- loader.js          # Inicialización de la aplicación
+|   |   `-- logger.js
+|   |-- middlewares
+|   |   `-- errorHandler.js
+|   |-- models
+|   |   `-- note.js
 |   |-- routes
-|   |   `-- notesRoute.js       # Rutas (no utilizadas en esta implementación de consola)
-|   |-- app.js                  # Arranque de la aplicación
-|   |-- index.js                # Entrada de la aplicación
-|   |-- eslint.config.mjs       # Configuración de ESLint
-|-- package.json                # Configuración y scripts del proyecto
-|-- .env                        # Variables de entorno
+|   |   `-- notesRoutes.js
+|   |-- app.js
+|   |-- index.js
+|-- tests
+|   |-- postman
+|       |-- Notas_API.postman_collection.json
+|-- package.json
+|-- .env
 ```
 
-## Funcionalidades Principales
-
-1. **Crear Nota**
-   - Permite al usuario crear una nueva nota.
-   - El usuario introduce el nombre y el contenido de la nota, terminando con dos líneas vacías.
-   - La nota se guarda como un archivo `.note` en la carpeta `notas`.
-
-2. **Editar Nota**
-   - Permite seleccionar una nota existente para editar su contenido.
-   - Muestra el contenido actual y permite sobrescribirlo.
-   - El nuevo contenido se guarda después de introducir dos líneas vacías.
-
-3. **Eliminar Nota**
-   - Muestra una lista de notas disponibles y permite eliminar una seleccionada.
-
-4. **Salir**
-   - Finaliza el programa.
-
-## Ejecución
-
-Para ejecutar la aplicación:
-
+## Instalación de Dependencias
+Ejecuta el siguiente comando para instalar las dependencias necesarias:
 ```bash
-node src/index.js
-# o usando el script npm
+npm install
+```
+
+## Ejecución del Servidor
+Para iniciar el servidor, usa el comando:
+```bash
 npm start
 ```
 
-### Comandos npm
+## Pruebas Automatizadas
 
-- `npm run crear`: Ejecuta el editor para crear una nueva nota.
-- `npm run editar`: Permite editar una nota existente.
-- `npm run eliminar`: Elimina una nota.
-- `npm run salir`: Finaliza la aplicación.
-- `npm run dev`: Ejecuta la aplicación en modo desarrollo con `nodemon`.
-- `npm run lint`: Ejecuta ESLint para verificación de código.
-- `npm run lint:fix`: Ejecuta ESLint y corrige errores de formato.
-
-## Dependencias y Configuración de ESLint
-
-- **Nodemon**: Ayuda a reiniciar la aplicación automáticamente en desarrollo.
-- **ESLint**: Configurado para mantener un estilo de código consistente.
-- **Globals**: Para definir variables globales.
-
-## Ejemplo de Uso
-
-```plaintext
---- Editor de Notas ---
-1. Crear nueva nota
-2. Editar nota existente
-3. Eliminar nota
-4. Salir
+### Instalación de Dependencias de Desarrollo
+Asegúrate de instalar las herramientas para pruebas automatizadas:
+```bash
+npm install --save-dev jest supertest
 ```
 
-Este menú permite al usuario navegar entre las opciones y gestionar sus notas desde la consola.
+### Ejecución de Pruebas
+Ejecuta las pruebas con:
+```bash
+npm test
+```
+
+## Pruebas Manuales con curl
+
+### Crear una Nueva Nota
+```bash
+curl -X POST http://localhost:3000/api/notes -H "Content-Type: application/json" -d '{"name": "test", "content": "This is a test note"}'
+```
+
+### Obtener Todas las Notas
+```bash
+curl http://localhost:3000/api/notes
+```
+
+### Obtener el Contenido de una Nota
+```bash
+curl http://localhost:3000/api/notes/test
+```
+
+### Eliminar una Nota
+```bash
+curl -X DELETE http://localhost:3000/api/notes/test
+```
+
+## Pruebas con Postman
+
+### Crear y Exportar la Colección
+1. Crear una nueva colección en Postman.
+2. Agregar solicitudes para cada una de las rutas de la API.
+3. Exportar la colección en formato `Collection v2.1`.
+4. Guardar el archivo exportado en `tests/postman/Notas_API.postman_collection.json`.
+
+### Ejecutar Pruebas de Postman con Newman
+
+#### Instalación de Newman
+Asegúrate de instalar Newman globalmente:
+```bash
+npm install -g newman
+```
+
+#### Agregar Script en `package.json`
+Incluye el siguiente script en el archivo `package.json`:
+```json
+{
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest",
+    "postman-test": "newman run tests/postman/Notas_API.postman_collection.json"
+  }
+}
+```
+
+#### Ejecutar Pruebas de Postman
+Ejecuta las pruebas con:
+```bash
+npm run postman-test
+```
+
+## Verificación de Resultados
+1. **Pruebas Automatizadas**: Asegúrate de que todas las pruebas pasen sin errores.
+2. **Pruebas Manuales**: Verifica que las respuestas sean correctas y que las operaciones (crear, obtener, eliminar) funcionen como se espera.
+3. **Pruebas de Postman**: Ejecuta las pruebas de Postman utilizando Newman y verifica los resultados en la terminal.
+
+## Notas Adicionales
+- Asegúrate de configurar correctamente el archivo `.env` con las variables de entorno necesarias para el funcionamiento del proyecto.
+- Puedes utilizar herramientas como [nodemon](https://www.npmjs.com/package/nodemon) durante el desarrollo para reiniciar automáticamente el servidor al realizar cambios.
+
+---
+Desarrollado con ❤️ por Jesús.

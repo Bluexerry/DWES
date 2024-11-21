@@ -1,12 +1,6 @@
 
 # Resumen: Test Funcionales en APIs
 
-## Autor
-Gabriel Rodríguez Flores
-
-## Fecha
-25 de noviembre de 2021
-
 ---
 
 ## Contenido del Documento
