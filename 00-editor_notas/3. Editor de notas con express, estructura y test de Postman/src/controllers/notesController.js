@@ -29,4 +29,23 @@ function deleteNote(req, res) {
     }
 }
 
-module.exports = { getAllNotes, getNoteContent, createNote, deleteNote };
+function updateNote(req, res) {
+    const notes = Note.getAllNotes();
+    if (notes.length === 0) {
+        return res.status(404).json({ error: 'No notes available' });
+    }
+
+    const { name, content } = req.body;
+    if (!name || !content) {
+        return res.status(400).json({ error: 'Name and content are required' });
+    }
+
+    try {
+        Note.updateNoteContent(name, content);
+        res.json({ message: 'Note updated' });
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+}
+
+module.exports = { getAllNotes, getNoteContent, createNote, deleteNote, updateNote };

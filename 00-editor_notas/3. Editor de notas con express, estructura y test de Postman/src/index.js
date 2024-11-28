@@ -22,5 +22,14 @@ app.listen(PORT, () => {
 // Obtener el contenido de una nota
 // curl http://localhost:3000/api/notes/test
 
+// Actualizar una nota
+// curl -X PUT http://localhost:3000/api/notes -H "Content-Type: application/json" -d '{"name": "test", "content": "Este es el nuevo contenido de la nota"}'
+
 // Eliminar una nota
 // curl -X DELETE http://localhost:3000/api/notes/test
+
+// Menu
+// npm run menu
+// npm run crear
+// npm run editar
+// npm run eliminar

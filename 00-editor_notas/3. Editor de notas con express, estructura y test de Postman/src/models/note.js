@@ -30,6 +30,15 @@ class Note {
             throw new Error('Note not found');
         }
     }
+
+    static updateNoteContent(name, content) {
+        const filePath = path.join(notesDir, `${name}.note`);
+        if (fs.existsSync(filePath)) {
+            fs.writeFileSync(filePath, content);
+        } else {
+            throw new Error('Note not found');
+        }
+    }
 }
 
 module.exports = Note;
