@@ -1,0 +1,68 @@
+1.2 SRC (Source)
+Es el contenido del código.
+Existen 3 ficheros en raiz:
+• index.js Entrada de la ejecución de la aplicación. Importa la configuración y la aplicación en sí
+misma para arrancar el servidor. Se usa para separar la ejecución de la creación de la aplicación
+y así poder recoger esta sin necesidad de arrancarla (de cara al uso de los test).
+• app.js Lanza la carga inicial (loaders) preparando la aplicación para ser arrancada. Exporta el
+objeto aplicación para que pueda ser usado con los test.
+• config.js Centraliza la configuración inicial de toda la aplicación.
+
+1.2.1 Loaders
+Módulo de carga de servicios. Aquí va todo lo que haya de ser ejecutado una vez en el arranque del
+servidor y no se vuelva a ejecutar.
+• Ejemplo de uso: Conexión con una base de datos
+
+1.2.2 Rutas
+En esta carpeta alojaremos las rutas, dentro de ella pueden haber más carpetas según la encapsulación
+de los endpoints.
+
+1.2.3 Controladores
+Los controladores son el cerebro de la aplicación, donde se gestiona y maneja todo el algoritmo y
+secuencia de instrucciones que conlleva operar la petición y devolver una respuesta.
+
+1.2.4 Servicios
+Los servicios son las partes del códgio donde la aplicación actúa de cliente. Se trata de user servicios
+externos y adaptar la respuesta para el uso de la aplicación.
+
+• Ejemplo de uso: Peticiones a una base de datos, peticiones a un servicio SMTP (correo elec-
+trónico), etc ...
+
+1.2.5 Modelos
+Cuando se trabaja con una base de datos, hay que definir cuál es el modelo de datos que lleva cada
+una de las tablas o colecciones con las que se va a trabajar. Este es el lugar indicado para ello.
+
+1.2.6 Utils
+Es el lugar donde un código de apoyo (alguna transformación de datos, constantes, etc) que no tiene
+cabida en otro lugar, y se define a parte para ser global y reutilizada.
+• helpers Todo algoritmo genérico, no atado al funcionamiento particular de la aplicación. Han
+de ser funciones puras y con un algoritmo genérico, no se debe particularizar la salida para una
+operación concreta.
+• Ejemplo de uso: Un sistema de logger, funciones de manipulación de datos (objetos, array, ... ),
+alacenamiento en memoria, constantes, etc.
+
+1.3 Test
+Como ya se ha visto, la carpeta test ha de ser una copia en estructura y ficheros del proyecto en sí. Esta
+granularidad nos permite realizar los test fichero a fichero evaluando el funcionamiento correcto en
+pequeñas partes y etapas.
+Hay 2 tipos de test que podemos dividir en 2 carpetas distintas:
+• unit Test unitarios como los conocidos con Jest o Ava
+• e2e Test de integración o funcionales, usados para probar la aplicación como usuario final.
+
+1.4 Ficheros en raíz
+1.4.1 ENV
+El fichero .env nos permite definir variables de entorno para la ejecución, a través de las cuales
+especificar los datos sensibles que no queremos que estén almacenados en código, y que pueden
+cambiar con el tiempo o dependiendo del entorno de ejecución que nos encontremos.
+Nota: El fichero .env ha de ser añadido al .gitignore para proteger los datos sensibles y no
+exponerlos por error.
+Ya que no le hacemos un seguimiento, para tener una copia del .env es común crear un fichero env.
+template con todos los nombres de las variables que se quieren definir, y unos valores por defectos
+para su ejecución en local, siempre asegurando que los valores proporcionados no sean los reales del
+entorno de producción.
+
+1.4.2 Readme.md
+El fichero de documentación escrito en Markdown
+
+1.4.3 Package.json
+El fichero de configuración e información del proyecto NPM.
