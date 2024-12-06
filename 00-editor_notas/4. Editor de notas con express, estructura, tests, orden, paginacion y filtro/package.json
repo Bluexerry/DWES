@@ -1,0 +1,31 @@
+{
+  "name": "editor_notas",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "menu": "node src/menu.js",
+    "crear": "node src/menu.js 1",
+    "editar": "node src/menu.js 2",
+    "eliminar": "node src/menu.js 3",
+    "dev": "nodemon src/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "jest",
+    "postman-test": "newman run tests/postman/Notes_API_Collection.postman_collection.json"
+  },
+  "dependencies": {
+    "editor_notas": "file:",
+    "express": "^4.21.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.7",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}

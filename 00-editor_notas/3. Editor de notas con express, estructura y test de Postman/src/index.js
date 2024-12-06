@@ -17,7 +17,7 @@ app.listen(PORT, () => {
 // curl -X POST http://localhost:3000/api/notes -H "Content-Type: application/json" -d '{"name": "test", "content": "This is a test note"}'
 
 // Obtener todas las notas
-//curl http://localhost:3000/api/notes
+// curl http://localhost:3000/api/notes
 
 // Obtener el contenido de una nota
 // curl http://localhost:3000/api/notes/test
