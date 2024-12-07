@@ -1,0 +1,297 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "Notas API"
+  description: "API para gestionar notas."
+
+servers:
+  - url: "http://localhost:3000"
+
+paths:
+  /api/notes/all:
+    get:
+      summary: "Obtener todas las notas"
+      description: "Obtiene una lista de todas las notas con opciones de paginación, filtrado y orden."
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          description: "Offset para paginación."
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: "Límite de resultados por página."
+        - in: query
+          name: filter
+          schema:
+            type: string
+          description: "Filtra las notas por nombre."
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: "Orden de las notas por fecha de creación."
+      responses:
+        "200":
+          description: "Lista de notas."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Note"
+        "500":
+          description: "Error interno del servidor."
+
+  /api/notes/{name}:
+    get:
+      summary: "Obtener el contenido de una nota específica"
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: "Nombre de la nota."
+      responses:
+        "200":
+          description: "Contenido de la nota."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+        "404":
+          description: "Nota no encontrada."
+        "500":
+          description: "Error interno del servidor."
+
+  /api/notes/login:
+    post:
+      summary: "Iniciar sesión para obtener un token"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "Nombre del usuario."
+              required:
+                - name
+      responses:
+        "200":
+          description: "Token de autenticación."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "403":
+          description: "Credenciales inválidas."
+        "500":
+          description: "Error interno del servidor."
+
+  /api/notes:
+    post:
+      summary: "Crear una nueva nota"
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "Nombre de la nueva nota."
+                content:
+                  type: string
+                  description: "Contenido de la nueva nota."
+              required:
+                - name
+                - content
+      responses:
+        "201":
+          description: "Nota creada exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "400":
+          description: "Datos inválidos enviados."
+        "401":
+          description: "No autorizado."
+        "500":
+          description: "Error interno del servidor."
+
+    put:
+      summary: "Actualizar una nota existente"
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "Nombre de la nota a actualizar."
+                content:
+                  type: string
+                  description: "Nuevo contenido de la nota."
+              required:
+                - name
+                - content
+      responses:
+        "200":
+          description: "Nota actualizada exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "400":
+          description: "Datos inválidos enviados."
+        "401":
+          description: "No autorizado."
+        "404":
+          description: "Nota no encontrada."
+        "500":
+          description: "Error interno del servidor."
+
+    delete:
+      summary: "Eliminar una nota específica"
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: "Nombre de la nota a eliminar."
+      responses:
+        "200":
+          description: "Nota eliminada exitosamente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: "No autorizado."
+        "404":
+          description: "Nota no encontrada."
+        "500":
+          description: "Error interno del servidor."
+
+  /api/notes/upload:
+    post:
+      summary: "Subir un archivo .note"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: "Archivo .note a subir."
+      responses:
+        "200":
+          description: "Archivo subido exitosamente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  filename:
+                    type: string
+        "400":
+          description: "Archivo no proporcionado."
+        "500":
+          description: "Error interno del servidor."
+
+  /api/notes/download/{filename}:
+    get:
+      summary: "Descargar un archivo .note"
+      parameters:
+        - in: path
+          name: filename
+          required: true
+          schema:
+            type: string
+          description: "Nombre del archivo a descargar."
+      responses:
+        "200":
+          description: "Descarga del archivo."
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: "Archivo no encontrado."
+        "500":
+          description: "Error interno del servidor."
+
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Nombre de la nota."
+        content:
+          type: string
+          description: "Contenido de la nota."
+        size:
+          type: integer
+          description: "Tamaño del archivo en bytes."
+        createdAt:
+          type: string
+          format: date-time
+          description: "Fecha de creación."
+        updatedAt:
+          type: string
+          format: date-time
+          description: "Fecha de última actualización."
+      required:
+        - name
+        - content
+        - size
+        - createdAt
+        - updatedAt
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
