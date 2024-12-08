@@ -1,5 +1,3 @@
-// src/controllers/notesController.js
-
 const Note = require('../models/note');
 const path = require('path');
 const fs = require('fs');

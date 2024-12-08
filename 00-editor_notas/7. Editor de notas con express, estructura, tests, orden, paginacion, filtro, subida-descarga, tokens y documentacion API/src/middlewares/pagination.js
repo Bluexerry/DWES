@@ -1,5 +1,3 @@
-// src/middlewares/pagination.js
-
 const paginationItems = (req, items, offset, limit) => {
     const first = parseInt(offset, 10);
     const step = parseInt(limit, 10);

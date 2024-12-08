@@ -1,5 +1,3 @@
-// src/utils/swagger.js
-
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const path = require('path');

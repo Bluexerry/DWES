@@ -82,3 +82,6 @@ app.listen(PORT, () => {
 // Eliminar una nota
 /*curl -X DELETE http://localhost:3000/api/notes/test \
      -H "Authorization: Bearer (insertar token)" */
+
+// Documentación Swagger
+// http://localhost:3000/api/notes/api-docs
