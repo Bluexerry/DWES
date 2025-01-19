@@ -8,4 +8,4 @@ app.listen(PORT, () => { // Inicia el servidor y escucha en el puerto especifica
 });
 
 //Rutas:
-// GET http://localhost:3000/api/user/(numero entero)
+// GET http://localhost:3000/api/user/1
