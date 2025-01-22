@@ -2,7 +2,6 @@
 
 module.exports = {
   port: process.env.PORT || 3000, // Puerto en el que se ejecutará el servidor
-  externalApiUrl: 'https://jsonplaceholder.typicode.com', // URL base de la API externa
   smtp: {
     host: process.env.SMTP_HOST, // Host SMTP
     port: process.env.SMTP_PORT, // Puerto SMTP

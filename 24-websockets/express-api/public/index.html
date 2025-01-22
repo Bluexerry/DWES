@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat en Tiempo Real</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* Reset de márgenes y paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variables de color */
+:root {
+  --primary-color: #4a90e2;
+  --primary-color-dark: #357ab8;
+  --secondary-color: #fff;
+  --accent-color: #ffc107;
+  --accent-color-dark: #e0a800;
+  --success-color: #28a745;
+  --success-color-dark: #218838;
+  --danger-color: #dc3545;
+  --danger-color-dark: #c82333;
+  --background-color: #f4f7fa;
+  --text-color: #333;
+  --light-gray: #f1f1f1;
+  --dark-gray: #555;
+  --font-family: 'Roboto', sans-serif;
+  --transition-speed: 0.3s;
+}
+
+/* Fuente global */
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Modal para ingresar el nombre de usuario */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background-color: var(--secondary-color);
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  text-align: center;
+  max-width: 450px;
+  width: 90%;
+}
+
+#username-form input {
+  width: 100%;
+  padding: 14px 24px;
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1.1em;
+  transition: border-color var(--transition-speed);
+}
+
+#username-form input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+#username-form button {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+#username-form button:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+}
+
+/* Header Styles */
+header {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 25px 20px;
+  text-align: center;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+header h1 {
+  font-size: 2.5em;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header h1 i {
+  margin-right: 15px;
+}
+
+/* Main Container */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  padding: 25px 30px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* User Panel */
+#user-panel {
+  background-color: var(--secondary-color);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  margin-right: 30px;
+  flex-shrink: 0;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
+}
+
+#user-panel h3 {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  font-size: 1.3em;
+  border-bottom: 1px solid var(--light-gray);
+  padding-bottom: 12px;
+}
+
+#user-list {
+  list-style: none;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 10px;
+}
+
+#user-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--light-gray);
+  color: var(--dark-gray);
+  font-size: 1.1em;
+}
+
+#user-list li:last-child {
+  border-bottom: none;
+}
+
+/* Chat Room */
+#chat-room {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  background-color: var(--secondary-color);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  padding: 30px;
+  height: 75vh;
+  display: flex;
+}
+
+#current-room-name {
+  margin-bottom: 25px;
+  color: var(--text-color);
+  font-size: 1.6em;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 8px;
+}
+
+/* Messages */
+#messages {
+  list-style: none;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+#messages li {
+  background-color: #e1f5fe;
+  border-radius: 10px;
+  padding: 12px 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  position: relative;
+  word-wrap: break-word;
+  transition: background-color var(--transition-speed);
+}
+
+#messages li:hover {
+  background-color: #d0ecff;
+}
+
+#messages li img {
+  max-width: 300px;
+  height: auto;
+  border-radius: 6px;
+  margin-top: 12px;
+  display: block;
+  border: 1px solid #ccc;
+  transition: transform var(--transition-speed);
+}
+
+#messages li img:hover {
+  transform: scale(1.05);
+}
+
+#messages li strong {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Message Form */
+#form {
+  display: flex;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+  flex-shrink: 0;
+}
+
+#form input {
+  flex: 1;
+  padding: 14px 28px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  outline: none;
+  font-size: 1.1em;
+  transition: border-color var(--transition-speed);
+}
+
+#form input:focus {
+  border-color: var(--primary-color);
+}
+
+#form button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 14px 35px;
+  margin-left: 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+#form button:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+}
+
+#form button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Vote Button */
+#start-vote-btn {
+  margin: 20px 30px;
+  padding: 16px 35px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+  margin-bottom: 40px;
+  align-self: flex-start;
+  font-size: 1.2em;
+  font-weight: 600;
+  text-transform: uppercase;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#start-vote-btn:hover {
+  background: linear-gradient(135deg, var(--primary-color-dark), var(--primary-color));
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+#start-vote-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+#start-vote-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.5);
+}
+
+/* Vote Panel */
+#vote-panel {
+  background-color: var(--secondary-color);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  margin-top: 25px;
+  display: none;
+}
+
+#vote-panel.active {
+  display: block;
+}
+
+#vote-panel h3 {
+  margin-bottom: 18px;
+  color: var(--text-color);
+  font-size: 1.4em;
+}
+
+#vote-buttons button {
+  margin-right: 20px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color var(--transition-speed);
+}
+
+#vote-buttons button.yes {
+  background-color: var(--success-color);
+  color: var(--secondary-color);
+}
+
+#vote-buttons button.yes:hover {
+  background-color: var(--success-color-dark);
+}
+
+#vote-buttons button.no {
+  background-color: var(--danger-color);
+  color: var(--secondary-color);
+}
+
+#vote-buttons button.no:hover {
+  background-color: var(--danger-color-dark);
+}
+
+#vote-info {
+  margin-top: 12px;
+  color: var(--dark-gray);
+  font-size: 1em;
+}
+
+/* Selección de usuarios para expulsar */
+#select-target {
+  margin-top: 25px;
+  display: none;
+}
+
+#select-target h3 {
+  margin-bottom: 12px;
+  color: var(--text-color);
+  font-size: 1.3em;
+}
+
+#select-target select {
+  width: 100%;
+  padding: 12px 18px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1.1em;
+  margin-bottom: 18px;
+  outline: none;
+  transition: border-color var(--transition-speed);
+}
+
+#select-target select:focus {
+  border-color: var(--primary-color);
+}
+
+#select-target button {
+  padding: 12px 30px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+#select-target button:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+}
+
+/* Room Selection */
+#room-selection {
+  background-color: var(--secondary-color);
+  padding: 30px 35px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80vh;
+  overflow-y: auto;
+}
+
+#room-selection h2 {
+  margin-bottom: 25px;
+  color: var(--text-color);
+  font-size: 1.8em;
+}
+
+#rooms-list {
+  list-style: none;
+  width: 100%;
+  max-width: 450px;
+}
+
+#rooms-list li {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--light-gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color var(--transition-speed);
+}
+
+#rooms-list li:last-child {
+  border-bottom: none;
+}
+
+#rooms-list li:hover {
+  background-color: #e6f2ff;
+}
+
+#rooms-list li span {
+  color: var(--text-color);
+  font-size: 1.2em;
+}
+
+#rooms-list li button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  font-size: 1em;
+}
+
+#rooms-list li button:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .chat-container {
+    padding: 20px 25px;
+  }
+
+  #user-panel {
+    width: 220px;
+    padding: 20px;
+  }
+
+  #chat-room {
+    height: 70vh;
+  }
+
+  #room-selection {
+    height: 75vh;
+  }
+}
+
+@media (max-width: 992px) {
+  .chat-container {
+    flex-direction: column;
+    padding: 15px 20px;
+  }
+
+  #user-panel {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 25px;
+    height: 300px;
+  }
+
+  #chat-room {
+    width: 100%;
+    height: 500px;
+  }
+
+  #room-selection {
+    height: 70vh;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2em;
+  }
+
+  #room-selection h2 {
+    font-size: 1.5em;
+  }
+
+  #user-panel h3, #chat-room h2, #vote-panel h3, #select-target h3 {
+    font-size: 1.1em;
+  }
+
+  #rooms-list li span {
+    font-size: 1.1em;
+  }
+
+  #form input, #form button {
+    padding: 12px;
+    font-size: 1em;
+  }
+
+  #start-vote-btn, #vote-buttons button, #select-target button {
+    padding: 10px 22px;
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 25px 30px;
+  }
+
+  header h1 {
+    font-size: 1.8em;
+  }
+
+  #room-selection h2 {
+    font-size: 1.4em;
+  }
+
+  #user-panel h3, #chat-room h2, #vote-panel h3, #select-target h3 {
+    font-size: 1em;
+  }
+
+  #rooms-list li span {
+    font-size: 1em;
+  }
+
+  #form input, #form button {
+    padding: 10px;
+    font-size: 0.95em;
+  }
+
+  #start-vote-btn, #vote-buttons button, #select-target button {
+    padding: 8px 18px;
+    font-size: 0.9em;
+  }
+}
+  </style>
+</head>
+<body>
+  <!-- Modal para ingresar el nombre de usuario -->
+  <div id="username-modal" class="modal">
+    <div class="modal-content">
+      <h2>Ingresa tu Nombre de Usuario</h2>
+      <form id="username-form">
+        <input type="text" id="username-input" placeholder="Nombre de Usuario" required />
+        <button type="submit">Ingresar</button>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <h1><i class="fas fa-comments"></i> Chat en Tiempo Real</h1>
+  </header>
+
+  <div class="chat-container">
+    <!-- Panel de Usuarios -->
+    <div id="user-panel">
+      <h3>Usuarios Conectados</h3>
+      <ul id="user-list">
+        <!-- Lista de usuarios se llenará dinámicamente -->
+      </ul>
+    </div>
+
+    <!-- Panel de Chat -->
+    <div id="chat-room">
+      <h2 id="current-room-name">Sala: </h2>
+      <ul id="messages"></ul>
+      <form id="form" action="">
+        <input id="input" autocomplete="off" placeholder="Escribe un mensaje o pega una URL de imagen..." />
+        <button type="submit"><i class="fas fa-paper-plane"></i> Enviar</button>
+      </form>
+
+      <!-- Botón para iniciar votación -->
+      <button id="start-vote-btn" onclick="startVote()">Iniciar Votación</button>
+
+      <!-- Panel de Votación -->
+      <div id="vote-panel">
+        <h3>Votación en Progreso</h3>
+        <p>Vota para expulsar a: <strong id="vote-target">[Usuario]</strong></p>
+        <div id="vote-buttons">
+          <button class="yes" onclick="castVote('yes')">Sí</button>
+          <button class="no" onclick="castVote('no')">No</button>
+        </div>
+        <div id="vote-info"></div>
+      </div>
+
+      <!-- Selección de usuarios para expulsar -->
+      <div id="select-target">
+        <h3>Selecciona al Usuario a Expulsar</h3>
+        <select id="target-user-select">
+          <!-- Opciones se llenarán dinámicamente -->
+        </select>
+        <button onclick="selectTarget()">Expulsar</button>
+      </div>
+    </div>
+
+    <!-- Selección de salas -->
+    <div id="room-selection">
+      <h2>Unirse a una Sala de Chat</h2>
+      <ul id="rooms-list">
+        <!-- Las salas predefinidas se listarán aquí -->
+        <li>
+          <span>cositas</span>
+          <button onclick="unirseASala(1, 'cositas')">Unirse</button>
+        </li>
+        <li>
+          <span>llaves de ivan</span>
+          <button onclick="unirseASala(2, 'llaves de ivan')">Unirse</button>
+        </li>
+        <li>
+          <span>carlon hijoputa</span>
+          <button onclick="unirseASala(3, 'carlon hijoputa')">Unirse</button>
+        </li>
+        <!-- Añade más salas según sea necesario -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Librería de Socket.IO -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
+  <script>
+    const socket = io();
+
+    // Elementos del DOM
+    const chatRoom = document.getElementById('chat-room');
+    const currentRoomName = document.getElementById('current-room-name');
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    const usernameModal = document.getElementById('username-modal');
+    const usernameForm = document.getElementById('username-form');
+    const usernameInput = document.getElementById('username-input');
+
+    const userList = document.getElementById('user-list');
+
+    const votePanel = document.getElementById('vote-panel');
+    const voteTarget = document.getElementById('vote-target');
+    const voteInfo = document.getElementById('vote-info');
+
+    const startVoteBtn = document.getElementById('start-vote-btn');
+
+    const selectTargetDiv = document.getElementById('select-target');
+    const targetUserSelect = document.getElementById('target-user-select');
+
+    let currentRoomId = null;
+    let username = '';
+    let allUsersVoted = false;
+
+    /**
+     * Función para unirse a una sala.
+     * @param {number} roomId - ID de la sala.
+     * @param {string} roomName - Nombre de la sala.
+     */
+    function unirseASala(roomId, roomName) {
+      // Si ya estás en una sala, deja la sala anterior
+      if (currentRoomId) {
+        socket.emit('leave room', currentRoomId);
+      }
+      currentRoomId = roomId;
+      currentRoomName.textContent = `Sala: ${roomName}`;
+      messages.innerHTML = '';
+      socket.emit('join room', { roomId, username }); // Enviar username al unirse
+      chatRoom.style.display = 'flex';
+      document.getElementById('room-selection').style.display = 'none';
+      // Scroll hacia abajo
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Manejar el envío del nombre de usuario
+    usernameForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const enteredName = usernameInput.value.trim();
+      if (enteredName) {
+        username = enteredName;
+        usernameModal.style.display = 'none';
+      }
+    });
+
+    // Manejar el envío de mensajes
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const mensaje = input.value.trim();
+      if (mensaje && currentRoomId && username) {
+        socket.emit('chat message', { roomId: currentRoomId, username, message: mensaje });
+        input.value = '';
+      }
+    });
+
+    /**
+     * Función para detectar URLs en el texto.
+     * @param {string} text - Texto a analizar.
+     * @returns {Array<string>} - Arreglo de URLs encontradas.
+     */
+    function detectarURLs(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.match(urlRegex);
+    }
+
+    // Escuchar mensajes de Socket.IO
+    socket.on('chat message', (data) => {
+      const item = document.createElement('li');
+      const { username: sender, message } = data;
+
+      const urls = detectarURLs(message);
+      if (urls) {
+        urls.forEach(url => {
+          // Crear enlace
+          const enlace = document.createElement('a');
+          enlace.href = url;
+          enlace.target = '_blank';
+          enlace.rel = 'noopener noreferrer';
+          enlace.textContent = url;
+          item.appendChild(enlace);
+
+          // Intentar cargar la imagen
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = 'Imagen enviada';
+          img.onerror = () => {
+            // Si la imagen no se carga, removerla
+            img.remove();
+          };
+          item.appendChild(img);
+        });
+      } else {
+        item.innerHTML = `<strong>${sender}:</strong> ${message}`;
+      }
+
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+    });
+
+    // Escuchar mensajes genéricos (como usuarios que se unen o dejan la sala)
+    socket.on('message', (msg) => {
+      const item = document.createElement('li');
+      item.textContent = msg;
+      item.style.fontStyle = 'italic';
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+    });
+
+    // Escuchar la lista de usuarios y actualizar el panel de usuarios
+    socket.on('user list', (users) => {
+      userList.innerHTML = '';
+      users.forEach((user) => {
+        const li = document.createElement('li');
+        li.textContent = user;
+        userList.appendChild(li);
+      });
+    });
+
+    // Escuchar inicio de votación
+    socket.on('start vote', () => {
+      // Mostrar el selector con la lista actual de usuarios
+      initiateVote();
+    });
+
+    // Manejar inicio de votación con objetivo seleccionado
+    socket.on('vote started', ({ target }) => {
+      voteTarget.textContent = target;
+      votePanel.classList.add('active');
+      voteInfo.textContent = `Total Votos: 0 / ${userList.children.length}`;
+    });
+
+    // Actualizar información de votación
+    socket.on('vote updated', ({ votes }) => {
+      voteInfo.textContent = `Total Votos: ${votes} / ${userList.children.length}`;
+    });
+
+    // Manejar resultado de la votación
+    socket.on('user kicked', ({ username: kickedUsername }) => {
+      if (username === kickedUsername) {
+        alert(`Has sido expulsado del chat.`);
+        window.location.href = '/error.html';
+      } else {
+        alert(`${kickedUsername} ha sido expulsado del chat.`);
+      }
+    });
+
+    // Manejar desconexión del servidor
+    socket.on('disconnect', () => {
+      console.log('Desconectado del servidor');
+      // Opcional: Mostrar un mensaje al usuario
+      const item = document.createElement('li');
+      item.textContent = 'Desconectado del servidor.';
+      item.style.fontStyle = 'italic';
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+    });
+
+    // Escuchar estado de votación
+    socket.on('vote state', (data) => {
+      if (data.inProgress) {
+        if (!votePanel.classList.contains('active')) {
+          voteInfo.textContent = `Total Votos: ${data.votes} / ${data.total}`;
+        }
+      } else {
+        votePanel.classList.remove('active');
+        voteInfo.textContent = '';
+      }
+    });
+
+    /**
+     * Función para iniciar una votación.
+     */
+    function startVote() {
+      // Verificar si ya hay una votación en progreso
+      socket.emit('start vote');
+    }
+
+    /**
+     * Función para seleccionar al usuario objetivo de la votación.
+     */
+    function initiateVote() {
+      // Mostrar el selector con la lista actual de usuarios
+      selectTargetDiv.style.display = 'block';
+      targetUserSelect.innerHTML = '';
+
+      // Obtener la lista actual de usuarios del panel, excluyendo al iniciador
+      const users = Array.from(userList.children)
+        .map(li => li.textContent)
+        .filter(name => name !== username);
+
+      if (users.length === 0) {
+        alert('No hay otros usuarios para expulsar.');
+        selectTargetDiv.style.display = 'none';
+        return;
+      }
+
+      // Rellenar el selector con usuarios
+      users.forEach(user => {
+        const option = document.createElement('option');
+        option.value = user;
+        option.textContent = user;
+        targetUserSelect.appendChild(option);
+      });
+    }
+
+    /**
+     * Función para seleccionar al usuario objetivo y emitir el evento.
+     */
+    function selectTarget() {
+      const selectedUser = targetUserSelect.value;
+      if (selectedUser) {
+        socket.emit('select target', selectedUser);
+        // Ocultar el selector después de seleccionar
+        selectTargetDiv.style.display = 'none';
+      }
+    }
+
+    /**
+     * Función para votar.
+     * @param {string} vote - 'yes' o 'no'.
+     */
+    function castVote(vote) {
+      socket.emit('cast vote', vote);
+      votePanel.classList.remove('active');
+      voteInfo.textContent = `Has votado '${vote}'. Esperando a que otros usuarios voten...`;
+    }
+  </script>
+</body>
+</html>

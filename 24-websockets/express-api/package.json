@@ -1,0 +1,20 @@
+{
+  "name": "multi-room-chat",
+  "version": "1.0.0",
+  "description": "A multi-room chat application using Express and Socket.IO",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "multi-room-chat": "file:",
+    "socket.io": "^4.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "author": "",
+  "license": "ISC"
+}

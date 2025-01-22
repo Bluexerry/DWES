@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Error - Chat en Tiempo Real</title>
+  <style>
+    /* Variables de color */
+    :root {
+      --background-color: #f8d7da;
+      --text-color: #721c24;
+      --button-bg: #721c24;
+      --button-hover-bg: #501217;
+      --button-text: #fff;
+      --button-border-radius: 5px;
+      --font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: var(--font-family);
+      background-color: var(--background-color);
+      color: var(--text-color);
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .error-container {
+      padding: 40px 60px;
+      border: 1px solid #f5c6cb;
+      border-radius: 10px;
+      background-color: #f8d7da;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .error-container h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: var(--text-color);
+    }
+
+    .error-container p {
+      font-size: 1.3em;
+      margin-bottom: 30px;
+      color: var(--text-color);
+    }
+
+    .error-container a {
+      display: inline-block;
+      padding: 12px 25px;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      text-decoration: none;
+      border-radius: var(--button-border-radius);
+      font-size: 1em;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .error-container a:hover {
+      background-color: var(--button-hover-bg);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 600px) {
+      .error-container {
+        padding: 30px 40px;
+      }
+
+      .error-container h1 {
+        font-size: 2em;
+      }
+
+      .error-container p {
+        font-size: 1.1em;
+      }
+
+      .error-container a {
+        padding: 10px 20px;
+        font-size: 0.95em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .error-container {
+        padding: 20px 30px;
+      }
+
+      .error-container h1 {
+        font-size: 1.8em;
+      }
+
+      .error-container p {
+        font-size: 1em;
+      }
+
+      .error-container a {
+        padding: 8px 18px;
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <h1>Error</h1>
+    <p>Has sido expulsado del chat o ha ocurrido un error.</p>
+    <a href="/">Volver al Inicio</a>
+  </div>
+</body>
+</html>
