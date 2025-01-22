@@ -1,0 +1,26 @@
+1. Búsqueda de elementos en array usando $in vs $all
+Ejemplo con $in: Encuentra películas que tengan al menos uno de los géneros especificados, por ejemplo, "Western" o "Comedy".
+
+db.getCollection('movies').find({
+  genres: { $in: ["Western", "Comedy"] }
+});
+
+Ejemplo con $all: Encuentra películas que tengan todos los géneros especificados, por ejemplo, "Western" y "Short".
+
+db.getCollection('movies').find({
+  genres: { $all: ["Western", "Short"] }
+});
+
+2. Búsqueda de arrays con elementos (> 0)
+Encuentra documentos donde el array cast tenga al menos un elemento.
+
+db.getCollection('movies').find({
+  cast: { $exists: true, $not: { $size: 0 } }
+});
+
+3. Contar todos los documentos que le falte el parámetro name dentro del parámetro user
+Aquí buscamos documentos donde user.name no existe:
+
+db.getCollection('movies').count({
+  'user.name': { $exists: false }
+});
