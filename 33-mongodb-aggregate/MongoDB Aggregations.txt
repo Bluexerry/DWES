@@ -1,0 +1,91 @@
+1. Contar cuántas películas y series hay en español
+db.movies.aggregate([
+  {
+    $match: {
+      languages: "Spanish" // Filtrar películas en español
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      count: { $sum: 1 },
+      titles: { $push: "$title" } // Crear un array con los títulos
+    }
+  }
+])
+
+2. Agrupar películas por género (primer nivel) y año (segundo nivel)
+db.movies.aggregate([
+  {
+    $unwind: "$genres" // Descomponer el array de géneros
+  },
+  {
+    $group: {
+      _id: {
+        genre: "$genres",
+        year: "$year"
+      },
+      movies: { $push: "$title" } // Guardar los títulos por género y año
+    }
+  },
+  {
+    $group: {
+      _id: "$_id.genre",
+      years: {
+        $push: {
+          year: "$_id.year",
+          movies: "$movies"
+        }
+      }
+    }
+  }
+])
+
+3. Agrupar películas por valoración (valores enteros)
+db.movies.aggregate([
+  {
+    $match: {
+      "imdb.rating": { $type: "number" } // Filtrar solo valores numéricos
+    }
+  },
+  {
+    $group: {
+      _id: { $floor: "$imdb.rating" }, // Agrupar por valoración entera
+      movies: { $push: "$title" }
+    }
+  },
+  {
+    $sort: { "_id": 1 } // Ordenar por la categoría de valoración
+  }
+])
+
+
+4. Agrupar películas por géneros y obtener nombre, año, valoración media
+db.movies.aggregate([
+  {
+    $unwind: "$genres" // Separar el array de géneros
+  },
+  {
+    $group: {
+      _id: "$genres",
+      movies: {
+        $push: {
+          name: "$title",
+          year: "$year",
+          imdb_rating: "$imdb.rating"
+        }
+      },
+      avg_rating: { $avg: "$imdb.rating" } // Calcular la valoración media por género
+    }
+  },
+  {
+    $project: {
+      _id: 1,
+      movies: 1,
+      avg_rating: { $round: ["$avg_rating", 2] } // Redondear la valoración media a 2 decimales
+    }
+  },
+  {
+    $sort: { avg_rating: -1 } // Ordenar por valoración media
+  }
+])
