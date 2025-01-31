@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const MONGO_URI = require('../src/credenciales/credenciales');
 
 // Conectar a la base de datos
-mongoose.connect('mongodb+srv://Jesus:daw2325@cluster0.mimwy.mongodb.net/sample_mflix');
+mongoose.connect(MONGO_URI);
 
 
 const db = mongoose.connection;

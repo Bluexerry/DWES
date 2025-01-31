@@ -1,7 +1,6 @@
 // src/config/database.js
 const mongoose = require('mongoose');
-
-const MONGO_URI = 'mongodb+srv://Jesus:daw2325@cluster0.mimwy.mongodb.net/sample_mflix';
+const MONGO_URI = require('../credenciales/credenciales');
 
 const connectDB = async () => {
     try {
