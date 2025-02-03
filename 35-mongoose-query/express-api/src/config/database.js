@@ -1,8 +1,8 @@
 // src/config/database.js
 const mongoose = require('mongoose');
-const MONGO_URI = require('../credenciales/credenciales');
 
 const connectDB = async () => {
+    const {MONGO_URI} = process.env;
     try {
         console.log('MONGO_URI:', MONGO_URI);
         if (!MONGO_URI) {

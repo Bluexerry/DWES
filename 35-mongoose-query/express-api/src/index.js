@@ -2,11 +2,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
 
-// 1. Cargar las variables de entorno antes de cualquier otra cosa
-dotenv.config();
-
 const connectDB = require('./config/database');
 const movieRoutes = require('./routes/movieRoutes');
+
+// 1. Cargar las variables de entorno antes de cualquier otra cosa
+dotenv.config();
 
 const app = express();
 

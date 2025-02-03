@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
-const MONGO_URI = require('../src/credenciales/credenciales');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Conectar a la base de datos
-mongoose.connect(MONGO_URI);
+mongoose.connect(process.env.MONGO_URI);
 
 
 const db = mongoose.connection;
